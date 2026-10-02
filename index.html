@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isha ❤️ A Little Something From Krish</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&family=Noto+Sans+Devanagari:wght@500&display=swap');
+
+  :root{
+    --pink:#ffd6e8; --pink-deep:#ff8fb3; --red:#e63950; --purple:#8e5fbf;
+    --white:#fffafc; --ink:#3a1f2b; --glass:rgba(255,255,255,0.35);
+    --radius:22px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Poppins',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+    background:linear-gradient(160deg,#fff0f5,#ffd6e8 40%,#e9c9f0 75%,#f3e0f7);
+    position:relative;
+  }
+  h1,h2{font-family:'Playfair Display',serif;}
+  .hindi{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ---------- particles ---------- */
+  #particleLayer{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:1;}
+  .particle{position:absolute; opacity:.75; animation:floatUp linear infinite;}
+  @keyframes floatUp{
+    from{transform:translateY(110vh) rotate(0deg); opacity:0;}
+    10%{opacity:.8;}
+    to{transform:translateY(-10vh) rotate(360deg); opacity:0;}
+  }
+
+  /* ---------- layout ---------- */
+  .page{display:none; min-height:100vh; position:relative; z-index:2; padding:32px 18px 60px;
+    align-items:center; justify-content:center; flex-direction:column; text-align:center;}
+  .page.active{display:flex; animation:fadeIn .7s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);}}
+
+  .glass{
+    background:var(--glass); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.55); border-radius:var(--radius);
+    box-shadow:0 8px 32px rgba(142,95,191,0.18);
+    padding:34px 28px; max-width:620px; width:100%;
+  }
+
+  .eyebrow{letter-spacing:.14em; text-transform:uppercase; font-size:.75rem; color:var(--purple); font-weight:600; margin-bottom:10px;}
+  .title{font-size:clamp(1.8rem,5vw,2.6rem); color:var(--red); margin-bottom:14px; text-shadow:0 2px 14px rgba(255,255,255,.6);}
+  p.body-text{font-size:1.05rem; line-height:1.8; margin-bottom:10px;}
+
+  /* ---------- progress indicator ---------- */
+  #progress{position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:5;
+    display:flex; gap:10px; background:rgba(255,255,255,.55); backdrop-filter:blur(8px);
+    padding:8px 16px; border-radius:30px; font-size:1.1rem; box-shadow:0 4px 18px rgba(142,95,191,.18);}
+  #progress span{opacity:.35; transition:opacity .4s, transform .4s;}
+  #progress span.on{opacity:1; transform:scale(1.25);}
+
+  /* ---------- buttons ---------- */
+  button{font-family:'Poppins',sans-serif; cursor:pointer; border:none;}
+  .btn{
+    font-size:1rem; font-weight:600; padding:14px 30px; border-radius:40px;
+    transition:transform .2s, box-shadow .2s; margin:8px;
+  }
+  .btn:active{transform:scale(.96);}
+  .btn-primary{background:linear-gradient(135deg,var(--red),#ff6f91); color:#fff; box-shadow:0 6px 18px rgba(230,57,80,.35);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(230,57,80,.45);}
+  .btn-secondary{background:#fff; color:var(--purple); border:2px solid var(--purple);}
+  .btn-secondary:hover{background:var(--purple); color:#fff;}
+  .btn-ghost{background:transparent; color:var(--ink); text-decoration:underline; padding:8px 10px;}
+
+  button:focus-visible, a:focus-visible{
+    outline:3px solid var(--purple); outline-offset:3px; border-radius:8px;
+  }
+
+  /* ---------- NO button dodge zone ---------- */
+  #noZone{position:relative; width:100%; height:70px; margin-top:6px;}
+  #noBtn{position:absolute; left:50%; top:0; transform:translateX(-50%); transition:left .25s, top .25s;}
+  #dodgeMsg{min-height:22px; font-size:.9rem; color:var(--purple); margin-top:10px;}
+
+  /* ---------- icon buttons ---------- */
+  .icon-btn{
+    position:fixed; width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.7);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; z-index:6; box-shadow:0 4px 14px rgba(142,95,191,.2);
+  }
+  #musicBtn{top:16px; right:16px;}
+
+  /* ---------- shayari ---------- */
+  .shayari-card{margin:14px 0; padding:20px; border-radius:16px; background:rgba(255,255,255,.5);
+    font-size:1.1rem; line-height:2; opacity:0; transform:translateY(14px); transition:opacity .8s, transform .8s;}
+  .shayari-card.show{opacity:1; transform:translateY(0);}
+
+  /* ---------- games hub ---------- */
+  .game-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin:20px 0;}
+  .game-card{background:rgba(255,255,255,.6); border-radius:16px; padding:20px 14px; cursor:pointer;
+    border:2px solid transparent; transition:border-color .2s, transform .2s;}
+  .game-card:hover,.game-card:focus-visible{border-color:var(--pink-deep); transform:translateY(-3px);}
+  .game-card .emoji{font-size:2rem; display:block; margin-bottom:6px;}
+
+  /* quiz */
+  .quiz-opt{display:block; width:100%; text-align:left; background:#fff; border:2px solid #f0d7e4;
+    border-radius:12px; padding:12px 16px; margin:8px 0; font-size:.95rem;}
+  .quiz-opt:hover{border-color:var(--pink-deep);}
+  .quiz-opt.correct{background:#e3f6e9; border-color:#3f9a5a;}
+  .quiz-opt.wrong{background:#fde6e6; border-color:var(--red);}
+
+  /* catch hearts */
+  #catchArena{position:relative; width:100%; max-width:480px; height:360px; margin:14px auto;
+    background:rgba(255,255,255,.35); border-radius:18px; overflow:hidden; border:2px dashed #f0b7cf;}
+  .falling-heart{position:absolute; top:-30px; font-size:1.6rem; background:none; animation:fall linear forwards;}
+  @keyframes fall{to{top:100%;}}
+  #catchHud{display:flex; justify-content:space-between; max-width:480px; margin:0 auto; font-weight:600;}
+
+  /* memory game */
+  #memGrid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:380px; margin:14px auto;}
+  .mem-card{aspect-ratio:1; border-radius:12px; background:linear-gradient(135deg,var(--purple),var(--pink-deep));
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:transparent;
+    transition:transform .3s; transform-style:preserve-3d;}
+  .mem-card.flipped,.mem-card.matched{color:#fff; background:#fff; color:var(--red);}
+
+  .hidden{display:none !important;}
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    .particle, .falling-heart{animation:none !important; display:none;}
+    .page.active{animation:none;}
+    .shayari-card{transition:none;}
+  }
+
+  footer-note{display:block; font-size:.8rem; opacity:.65; margin-top:18px;}
+</style>
+</head>
+<body>
+
+<div id="particleLayer" aria-hidden="true"></div>
+
+<div id="progress" aria-hidden="true">
+  <span data-step="proposal">💗</span><span data-step="shayari">🌹</span>
+  <span data-step="celebration">🎉</span><span data-step="games">🎮</span><span data-step="final">💌</span>
+</div>
+
+<button id="musicBtn" class="icon-btn" aria-label="Play background music: Khat by Navjot Ahuja" aria-pressed="false">🔇</button>
+<!-- Background music: "Khat" by Navjot Ahuja — streamed live from YouTube's official,
+     label-distributed upload (Warner Music India), via YouTube's own embed player.
+     No audio file is downloaded or stored here; playback happens entirely on YouTube's player. -->
+<div id="musicFrameWrap" style="position:fixed; width:1px; height:1px; overflow:hidden; opacity:0; pointer-events:none;" aria-hidden="true">
+  <iframe id="bgMusicFrame" width="1" height="1" title="Khat by Navjot Ahuja - background music"
+    allow="autoplay; encrypted-media" frameborder="0" src=""></iframe>
+</div>
+
+<main>
+
+  <!-- PAGE 1: PROPOSAL -->
+  <section class="page active" id="page-proposal" aria-labelledby="proposalTitle">
+    <div class="glass">
+      <div class="eyebrow">For Isha</div>
+      <h1 class="title" id="proposalTitle">Isha ❤️, Will You Be Mine?</h1>
+      <p class="body-text">I don't know what the future holds, but I know that I want you to be a
+        beautiful part of it. So today, I just want to ask you one simple question...</p>
+
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; margin-top:18px;">
+        <button class="btn btn-primary" id="yesBtn">YES ❤️</button>
+        <div id="noZone">
+          <button class="btn btn-secondary" id="noBtn">NO 🙈</button>
+        </div>
+      </div>
+      <p id="dodgeMsg" aria-live="polite"></p>
+    </div>
+    <div id="yesToast" class="glass hidden" style="margin-top:18px; max-width:420px;" role="status">
+      You just made my heart the happiest one in the world! ❤️🥹
+    </div>
+  </section>
+
+  <!-- NO RESPONSE PAGE -->
+  <section class="page" id="page-noresponse" aria-labelledby="noTitle">
+    <div class="glass">
+      <h2 class="title" id="noTitle">Thank you for being honest, Isha 🤍</h2>
+      <p class="body-text">Your feelings matter, and I respect whatever you choose. There is no
+        pressure and no hard feelings. I'm grateful that you took the time to answer honestly. 🌷</p>
+      <button class="btn btn-secondary" id="goBackBtn">Go Back 💗</button>
+      <button class="btn btn-primary" id="noCloseBtn">Close ❤️</button>
+    </div>
+  </section>
+
+  <!-- NO FINAL CLOSE -->
+  <section class="page" id="page-no-final" aria-labelledby="noFinalTitle">
+    <div class="glass">
+      <h2 class="title" id="noFinalTitle">Thank you for being honest, Isha. 🤍</h2>
+      <p class="body-text">I genuinely respect your answer. You don't owe me a yes, and there is
+        no pressure at all. I hope this little website at least gave you a reason to smile. 🌷</p>
+      <p class="body-text" style="font-weight:600;">Wishing you nothing but happiness,<br>Krish 🤍</p>
+      <button class="btn btn-primary" id="closeChapterBtn">Close This Chapter 🌷</button>
+    </div>
+  </section>
+
+  <!-- ABSOLUTE FINAL PEACEFUL SCREEN -->
+  <section class="page" id="page-peaceful" aria-labelledby="peacefulTitle">
+    <div class="glass">
+      <h2 class="title" id="peacefulTitle">Thank you for being here, Isha.</h2>
+      <p class="body-text">Take care. 🤍</p>
+    </div>
+  </section>
+
+  <!-- PAGE 2: SHAYARI -->
+  <section class="page" id="page-shayari" aria-labelledby="shayariTitle">
+    <div class="glass" style="max-width:680px;">
+      <h2 class="title hindi" id="shayariTitle">For My Isha ❤️</h2>
+      <div id="shayariList"></div>
+      <button class="btn btn-primary hidden" id="shayariNextBtn">Continue 🌹</button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: CELEBRATION -->
+  <section class="page" id="page-celebration" aria-labelledby="celTitle">
+    <div class="glass">
+      <h1 class="title" id="celTitle">SHE SAID YES! ❤️🥹🎉</h1>
+      <p class="body-text">This moment is going to stay with me forever.</p>
+      <button class="btn btn-primary" id="toGamesBtn">Let's Play Something Romantic 💕</button>
+    </div>
+  </section>
+
+  <!-- PAGE 4: GAMES HUB -->
+  <section class="page" id="page-games" aria-labelledby="gamesTitle">
+    <div class="glass" style="max-width:680px;">
+      <h2 class="title" id="gamesTitle">Romantic Mini Games 🎮❤️</h2>
+
+      <div class="game-grid" id="gameGrid">
+        <div class="game-card" tabindex="0" role="button" data-game="quiz">
+          <span class="emoji">❓</span>How Well Do You Know Me?
+        </div>
+        <div class="game-card" tabindex="0" role="button" data-game="catch">
+          <span class="emoji">❤️</span>Catch the Hearts
+        </div>
+        <div class="game-card" tabindex="0" role="button" data-game="memory">
+          <span class="emoji">💕</span>Love Memory Game
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="hidden" id="quizGame">
+        <div id="quizBody"></div>
+      </div>
+
+      <!-- CATCH -->
+      <div class="hidden" id="catchGame">
+        <div id="catchHud"><span>Score: <span id="catchScore">0</span></span><span>Time: <span id="catchTime">30</span>s</span></div>
+        <div id="catchArena" role="application" aria-label="Catch the falling hearts game"></div>
+        <button class="btn btn-secondary" id="catchStartBtn">Start</button>
+      </div>
+
+      <!-- MEMORY -->
+      <div class="hidden" id="memoryGame">
+        <p>Moves: <span id="memMoves">0</span></p>
+        <div id="memGrid"></div>
+      </div>
+
+      <p id="gameDoneMsg" class="body-text hidden" role="status">Every moment with you is a memory worth keeping. ❤️</p>
+      <button class="btn btn-ghost hidden" id="backToHubBtn">← Back to games</button>
+      <button class="btn btn-primary" id="toFinalBtn">Continue ❤️</button>
+    </div>
+  </section>
+
+  <!-- PAGE 5: FINAL MESSAGE -->
+  <section class="page" id="page-final" aria-labelledby="finalTitle">
+    <div class="glass" style="max-width:680px;">
+      <h2 class="title" id="finalTitle">Isha, A Few Words From My Heart ❤️</h2>
+      <p class="body-text hindi" style="text-align:left;">
+        Isha,<br>
+        कभी-कभी ज़िंदगी में कुछ लोग अचानक मिलते हैं,<br>
+        लेकिन धीरे-धीरे वही लोग हमारी ज़िंदगी का सबसे खूबसूरत हिस्सा बन जाते हैं।<br>
+        तुम मेरे लिए सिर्फ एक नाम नहीं हो,<br>
+        तुम वो खूबसूरत एहसास हो जिसे मैं शब्दों में पूरी तरह बयां नहीं कर सकता।<br><br>
+        तुम्हारी एक मुस्कान मेरा दिन बेहतर बना सकती है,<br>
+        तुम्हारी एक छोटी सी बात मेरे चेहरे पर मुस्कान ला सकती है।<br>
+        मैं नहीं जानता आने वाला कल कैसा होगा,<br>
+        लेकिन इतना जरूर जानता हूँ कि अगर उसमें तुम हो,<br>
+        तो मैं उस कल को पूरे दिल से जीना चाहूँगा। ❤️
+      </p>
+      <p class="body-text">Thank you for being you, Isha. You are truly special to me. ❤️🥹🌹</p>
+      <p class="body-text" style="font-weight:600;">With Love,<br>Krish ❤️</p>
+      <button class="btn btn-primary" id="toYesFinalBtn">Continue</button>
+    </div>
+  </section>
+
+  <!-- YES FINAL CLOSE -->
+  <section class="page" id="page-yes-final" aria-labelledby="yesFinalTitle">
+    <div class="glass">
+      <h2 class="title" id="yesFinalTitle">And this is just the beginning… ❤️</h2>
+      <p class="body-text">Thank you for saying yes, Isha. Whatever beautiful moments come next,
+        I hope we can fill them with laughter, memories, little adventures, and lots of smiles. 🌹</p>
+      <p class="body-text">Today wasn't just a proposal — it was the beginning of a story I hope
+        we both cherish. ❤️</p>
+      <p class="body-text" style="font-weight:600;">With all my heart,<br>Krish ❤️</p>
+      <button class="btn btn-secondary" id="replayBtn">Replay Our Story 🔄</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ---------------- navigation ---------------- */
+  const pages = document.querySelectorAll('.page');
+  const progressSteps = document.querySelectorAll('#progress span');
+  const stepOrder = ['proposal','shayari','celebration','games','final'];
+
+  function showPage(id, progressStep){
+    pages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    target.classList.add('active');
+    target.setAttribute('tabindex','-1');
+    target.focus({preventScroll:false});
+    window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
+
+    if(progressStep){
+      progressSteps.forEach(s => s.classList.toggle('on', s.dataset.step === progressStep));
+    }
+  }
+
+  /* ---------------- particles ---------------- */
+  function spawnParticles(){
+    if(reduceMotion) return;
+    const layer = document.getElementById('particleLayer');
+    const symbols = ['❤️','🌸','✨','💜','🌹'];
+    for(let i=0;i<22;i++){
+      const el = document.createElement('div');
+      el.className = 'particle';
+      el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.fontSize = (12 + Math.random()*16) + 'px';
+      el.style.animationDuration = (10 + Math.random()*12) + 's';
+      el.style.animationDelay = (Math.random()*10) + 's';
+      layer.appendChild(el);
+    }
+  }
+  spawnParticles();
+
+  /* ---------------- music: "Khat" by Navjot Ahuja (official YouTube embed) ---------------- */
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusicFrame = document.getElementById('bgMusicFrame');
+  const YT_VIDEO_ID = 'KrJ5c-Egz-U'; // Navjot Ahuja - Khat, official upload (Warner Music India)
+  function ytSrc(autoplay){
+    return `https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=${autoplay?1:0}&loop=1&playlist=${YT_VIDEO_ID}&controls=0&modestbranding=1&rel=0&playsinline=1`;
+  }
+  let playing = false;
+  musicBtn.addEventListener('click', () => {
+    playing = !playing;
+    if(playing){
+      bgMusicFrame.src = ytSrc(true); // loads + autoplays on this user click (gesture-gated)
+      musicBtn.textContent = '🔈';
+      musicBtn.setAttribute('aria-label','Mute background music: Khat by Navjot Ahuja');
+      musicBtn.setAttribute('aria-pressed','true');
+    } else {
+      bgMusicFrame.src = ''; // stops playback
+      musicBtn.textContent = '🔇';
+      musicBtn.setAttribute('aria-label','Play background music: Khat by Navjot Ahuja');
+      musicBtn.setAttribute('aria-pressed','false');
+    }
+  });
+
+  /* ---------------- YES / NO proposal ---------------- */
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const noZone = document.getElementById('noZone');
+  const dodgeMsg = document.getElementById('dodgeMsg');
+  const yesToast = document.getElementById('yesToast');
+
+  const dodgeLines = ["Are you sure? 🥺","Think again, Isha! 🙈","Please don't break my heart 💔🥹","That button is shy 😭😂"];
+
+  function dodge(){
+    if(reduceMotion || !canHover) return; // keep it simple/predictable for reduced-motion & touch-only users
+    const maxX = noZone.clientWidth - noBtn.offsetWidth;
+    const newLeft = Math.max(0, Math.random()*maxX);
+    noBtn.style.left = newLeft + 'px';
+    noBtn.style.transform = 'translateX(0)';
+    dodgeMsg.textContent = dodgeLines[Math.floor(Math.random()*dodgeLines.length)];
+  }
+  // Only dodge on mouse hover — NEVER on keyboard focus, so keyboard users can always reach it.
+  noBtn.addEventListener('mouseenter', dodge);
+
+  // Light touch-dodge for mobile, but only once per tap attempt so NO always stays reachable.
+  let touchDodgeCount = 0;
+  noBtn.addEventListener('touchstart', (e) => {
+    if(reduceMotion) return;
+    if(touchDodgeCount < 2){
+      e.preventDefault();
+      dodge();
+      touchDodgeCount++;
+    }
+  }, {passive:false});
+
+  noBtn.addEventListener('click', () => {
+    showPage('noresponse');
+  });
+
+  yesBtn.addEventListener('click', () => {
+    burstHearts();
+    yesToast.classList.remove('hidden');
+    yesBtn.disabled = true; noBtn.disabled = true;
+    setTimeout(() => {
+      showPage('shayari','shayari');
+      revealShayaris();
+    }, 1700);
+  });
+
+  function burstHearts(){
+    if(reduceMotion) return;
+    const layer = document.getElementById('particleLayer');
+    for(let i=0;i<30;i++){
+      const el = document.createElement('div');
+      el.textContent = '❤️';
+      el.style.position='fixed';
+      el.style.left = (45 + Math.random()*10) + 'vw';
+      el.style.top = '60vh';
+      el.style.fontSize = (16+Math.random()*18)+'px';
+      el.style.transition = 'transform 1.4s ease-out, opacity 1.4s ease-out';
+      el.style.zIndex = 50;
+      document.body.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.transform = `translate(${(Math.random()-0.5)*500}px, ${-(300+Math.random()*300)}px) rotate(${Math.random()*360}deg)`;
+        el.style.opacity = '0';
+      });
+      setTimeout(()=>el.remove(), 1500);
+    }
+  }
+
+  document.getElementById('goBackBtn').addEventListener('click', () => {
+    yesBtn.disabled = false; noBtn.disabled = false;
+    yesToast.classList.add('hidden');
+    noBtn.style.left=''; noBtn.style.transform='translateX(-50%)';
+    showPage('proposal');
+  });
+  document.getElementById('noCloseBtn').addEventListener('click', () => showPage('no-final'));
+  document.getElementById('closeChapterBtn').addEventListener('click', () => showPage('peaceful'));
+
+  /* ---------------- shayari reveal ---------------- */
+  const shayaris = [
+`तेरी मुस्कान में कुछ ऐसा जादू है,
+कि मेरा हर ग़म तुझसे मिलकर खो जाता है।
+तू साथ रहे बस इतना सा ख्वाब है मेरा,
+क्योंकि तुझसे ही मेरा हर कल खूबसूरत हो जाता है। ❤️`,
+`तेरी आँखों में एक अलग ही सुकून है,
+जैसे थकी हुई शाम में ठंडी हवा का झोंका।
+तुझे देख कर लगता है, सब कुछ ठीक है,
+चाहे बाकी दुनिया कितनी भी उलझी हो। 🌸`,
+`हर मुलाक़ात में तुझसे कुछ नया सीखता हूँ,
+हर बात में तेरी एक अलग अदा दिखती है।
+बस यही चाहता हूँ, ये सिलसिला यूँ ही चले,
+तेरे साथ हर लम्हा और खूबसूरत बनता जाए। 💜`,
+`तुझसे मिलकर जिंदगी थोड़ी आसान लगी,
+हर उलझन का हल, तेरी बातों में मिल गया।
+अब डर नहीं लगता आने वाले कल से,
+क्योंकि यकीन है, तू साथ हो तो रस्ता मिल जाएगा। 🌹`
+  ];
+
+  function revealShayaris(){
+    const list = document.getElementById('shayariList');
+    const nextBtn = document.getElementById('shayariNextBtn');
+    list.innerHTML = '';
+    nextBtn.classList.add('hidden');
+    let i = 0;
+    function addNext(){
+      if(i >= shayaris.length){ nextBtn.classList.remove('hidden'); return; }
+      const card = document.createElement('div');
+      card.className = 'shayari-card hindi';
+      card.style.whiteSpace = 'pre-line';
+      card.textContent = shayaris[i];
+      list.appendChild(card);
+      requestAnimationFrame(() => card.classList.add('show'));
+      i++;
+      setTimeout(addNext, reduceMotion ? 300 : 1300);
+    }
+    addNext();
+  }
+
+  document.getElementById('shayariNextBtn').addEventListener('click', () => showPage('celebration','celebration'));
+  document.getElementById('toGamesBtn').addEventListener('click', () => showPage('games','games'));
+  document.getElementById('toFinalBtn').addEventListener('click', () => showPage('final','final'));
+  document.getElementById('toYesFinalBtn').addEventListener('click', () => showPage('yes-final'));
+  document.getElementById('replayBtn').addEventListener('click', () => {
+    yesBtn.disabled = false; noBtn.disabled = false;
+    yesToast.classList.add('hidden');
+    touchDodgeCount = 0;
+    noBtn.style.left=''; noBtn.style.transform='translateX(-50%)';
+    showPage('proposal');
+  });
+
+  /* ---------------- games hub ---------------- */
+  const gameGrid = document.getElementById('gameGrid');
+  const quizGame = document.getElementById('quizGame');
+  const catchGame = document.getElementById('catchGame');
+  const memoryGame = document.getElementById('memoryGame');
+  const gameDoneMsg = document.getElementById('gameDoneMsg');
+  const backToHubBtn = document.getElementById('backToHubBtn');
+  const allGameViews = {quiz:quizGame, catch:catchGame, memory:memoryGame};
+
+  function openGame(name){
+    gameGrid.classList.add('hidden');
+    Object.values(allGameViews).forEach(v=>v.classList.add('hidden'));
+    allGameViews[name].classList.remove('hidden');
+    gameDoneMsg.classList.add('hidden');
+    backToHubBtn.classList.remove('hidden');
+    if(name==='quiz') startQuiz();
+    if(name==='memory') startMemory();
+  }
+  function closeToHub(){
+    gameGrid.classList.remove('hidden');
+    Object.values(allGameViews).forEach(v=>v.classList.add('hidden'));
+    backToHubBtn.classList.add('hidden');
+    gameDoneMsg.classList.add('hidden');
+  }
+  backToHubBtn.addEventListener('click', closeToHub);
+
+  document.querySelectorAll('.game-card').forEach(card => {
+    card.addEventListener('click', () => openGame(card.dataset.game));
+    card.addEventListener('keydown', (e) => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openGame(card.dataset.game);} });
+  });
+
+  function finishGame(){
+    gameDoneMsg.classList.remove('hidden');
+  }
+
+  /* --- quiz --- */
+  const quizQuestions = [
+    {q:"Where did we first properly talk?", opts:["College","A mutual friend's place","Online","At work"], a:1},
+    {q:"What's something Isha always says?", opts:["\"Let's see\"","\"Obviously\"","\"No way!\"","\"Haha stop\""], a:2},
+    {q:"What do I love most about spending time with you?", opts:["Your laugh","Our long talks","Your honesty","All of it, honestly"], a:3},
+    {q:"Pick the one that feels most 'us':", opts:["Chai & long talks","Loud parties","Silent scrolling","Nothing in particular"], a:0},
+  ];
+  function startQuiz(){
+    const body = document.getElementById('quizBody');
+    let score = 0, qi = 0;
+    function render(){
+      if(qi >= quizQuestions.length){
+        body.innerHTML = `<p class="body-text">Score: ${score}/${quizQuestions.length} — however many you got, the real answer is always you. ❤️</p>`;
+        finishGame();
+        return;
+      }
+      const q = quizQuestions[qi];
+      body.innerHTML = `<p class="body-text" style="font-weight:600;">${q.q}</p>`;
+      q.opts.forEach((opt,idx) => {
+        const b = document.createElement('button');
+        b.className = 'quiz-opt';
+        b.textContent = opt;
+        b.addEventListener('click', () => {
+          document.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+          if(idx === q.a){ b.classList.add('correct'); score++; }
+          else { b.classList.add('wrong'); }
+          setTimeout(()=>{ qi++; render(); }, 700);
+        });
+        body.appendChild(b);
+      });
+    }
+    render();
+  }
+
+  /* --- catch the hearts --- */
+  const catchArena = document.getElementById('catchArena');
+  const catchScoreEl = document.getElementById('catchScore');
+  const catchTimeEl = document.getElementById('catchTime');
+  const catchStartBtn = document.getElementById('catchStartBtn');
+  let catchScore=0, catchTimer=null, catchSpawner=null, catchTimeLeft=30;
+
+  function startCatch(){
+    catchArena.innerHTML='';
+    catchScore=0; catchTimeLeft=30;
+    catchScoreEl.textContent=0; catchTimeEl.textContent=30;
+    catchStartBtn.disabled = true;
+    clearInterval(catchTimer); clearInterval(catchSpawner);
+
+    catchSpawner = setInterval(() => {
+      const h = document.createElement('button');
+      h.className='falling-heart'; h.textContent='❤️';
+      h.setAttribute('aria-label','Catch this heart');
+      const arenaW = catchArena.clientWidth;
+      h.style.left = Math.random()*(arenaW-30)+'px';
+      h.style.animationDuration = (2.2 + Math.random()*1.6)+'s';
+      h.addEventListener('click', () => { catchScore++; catchScoreEl.textContent=catchScore; h.remove(); });
+      h.addEventListener('animationend', () => h.remove());
+      catchArena.appendChild(h);
+    }, 650);
+
+    catchTimer = setInterval(() => {
+      catchTimeLeft--; catchTimeEl.textContent=catchTimeLeft;
+      if(catchTimeLeft<=0){
+        clearInterval(catchTimer); clearInterval(catchSpawner);
+        catchArena.innerHTML = `<p style="padding:20px;">Final score: ${catchScore} ❤️</p>`;
+        catchStartBtn.disabled = false;
+        finishGame();
+      }
+    }, 1000);
+  }
+  catchStartBtn.addEventListener('click', startCatch);
+
+  /* --- memory match --- */
+  const memGrid = document.getElementById('memGrid');
+  const memMovesEl = document.getElementById('memMoves');
+  function startMemory(){
+    const icons = ['❤️','🌹','⭐','💜','💗','🌸','✨','💌'];
+    let deck = [...icons, ...icons].sort(()=>Math.random()-0.5);
+    memGrid.innerHTML=''; memMovesEl.textContent=0;
+    let moves=0, first=null, lock=false, matched=0;
+
+    deck.forEach((icon) => {
+      const card = document.createElement('button');
+      card.className='mem-card';
+      card.setAttribute('aria-label','Memory card, face down');
+      card.dataset.icon = icon;
+      card.addEventListener('click', () => {
+        if(lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+        card.classList.add('flipped'); card.textContent = icon;
+        if(!first){ first = card; return; }
+        moves++; memMovesEl.textContent = moves; lock = true;
+        if(first.dataset.icon === card.dataset.icon){
+          first.classList.add('matched'); card.classList.add('matched');
+          matched++; first=null; lock=false;
+          if(matched === icons.length){
+            setTimeout(() => { finishGame(); }, 400);
+          }
+        } else {
+          setTimeout(() => {
+            first.classList.remove('flipped'); first.textContent='';
+            card.classList.remove('flipped'); card.textContent='';
+            first=null; lock=false;
+          }, 700);
+        }
+      });
+      memGrid.appendChild(card);
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
